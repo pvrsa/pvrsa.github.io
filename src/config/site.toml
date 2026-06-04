@@ -1,9 +1,9 @@
 [config.site]
-title = "YOUR_NAME"
-description = "YOUR_DESCRIPTION"
-pageTitle = "YOUR_NAME | Personal Site"
-pageDescription = "YOUR_DESCRIPTION"
-repository = "https://github.com/YOUR_GITHUB/YOUR_REPO"
+title = "Sai Aasrith"
+description = "Software Engineer — Distributed Systems & AI Agents"
+pageTitle = "Sai Aasrith | Software Engineer"
+pageDescription = "Software Engineer specializing in distributed systems, observability, and AI agents. Based in Seattle, WA."
+repository = "https://github.com/pvrsa/pvrsa.github.io"
 footerNote = ""
 
 [config.vibe]
@@ -65,15 +65,15 @@ pageview = true
 comment = true
 
 [config.profile]
-name = "YOUR_NAME"
-handle = "@YOUR_HANDLE"
-role = "YOUR_ROLE"
-company = "YOUR_COMPANY"
-location = "YOUR_LOCATION"
-email = "your@email.com"
-website = "https://your-site.github.io"
-github = "https://github.com/YOUR_GITHUB"
-meta = "YOUR_META"
+name = "Sai Aasrith"
+handle = "@pvrsa"
+role = "Software Engineer"
+company = "Amazon Web Services"
+location = "Seattle, WA"
+email = "sai.aasrith@gmail.com"
+website = "https://pvrsa.github.io"
+github = "https://github.com/pvrsa"
+meta = "Distributed Systems & AI Agents"
 avatar = "/images/logo.png"
 
 [[config.topNav.links]]
@@ -97,16 +97,17 @@ layout = "grid"
 
 [config.home.quote]
 text = [
-  "Add your quote here."
+  "Building systems that scale.",
+  "Making AI agents that work."
 ]
 image = "/images/logo-with-name.png"
 
 [config.home.intro]
-title = "hi, I'm ..."
-name = "Your Name"
+title = "hi, I'm Sai"
+name = "Sai Aasrith"
 body = [
-  "Add a short bio here.",
-  "What do you work on? What do you care about?"
+  "Software engineer at AWS, working on distributed systems and AI agents.",
+  "6 years at Amazon building infrastructure for DynamoDB and QuickSight AI."
 ]
 image = "/images/logo-cat.png"
 
@@ -138,7 +139,7 @@ href = "/about"
 
 [[config.home.connect]]
 label = "GitHub"
-href = "https://github.com/YOUR_GITHUB"
+href = "https://github.com/pvrsa"
 icon = "github"
 
 [[config.home.connect]]
@@ -153,17 +154,17 @@ icon = "compass"
 
 [[config.home.connect]]
 label = "Email"
-href = "mailto:your@email.com"
+href = "mailto:sai.aasrith@gmail.com"
 icon = "mail"
 
 [[config.home.doing]]
-text = "Add what you are working on"
+text = "Building AI agent orchestration at AWS QuickSight"
 mark = "01"
 
 [[config.home.doing]]
-text = "Something you are reading or learning"
+text = "Scaling DynamoDB Global Tables infrastructure"
 mark = "02"
 
 [[config.home.doing]]
-text = "A project or idea you are exploring"
+text = "Writing about distributed systems and AI"
 mark = "03"
