@@ -1,10 +1,10 @@
 [config.site]
-title = "navfolio"
-description = "A personal navigation portfolio starter built with Astro."
-pageTitle = "navfolio | Digital Publication Space"
-pageDescription = "A calm AI-native personal publication space for notes, links, and writing."
-repository = "https://github.com/dodolalorc/astro-navfolio"
-footerNote = "Released as an open-source starter."
+title = "YOUR_NAME"
+description = "YOUR_DESCRIPTION"
+pageTitle = "YOUR_NAME | Personal Site"
+pageDescription = "YOUR_DESCRIPTION"
+repository = "https://github.com/YOUR_GITHUB/YOUR_REPO"
+footerNote = ""
 
 [config.vibe]
 showTrail = true
@@ -23,7 +23,7 @@ preserveIndent = true
 collapseStyle = "collapsible-auto"
 
 [config.comments]
-enabled = true
+enabled = false
 provider = "giscus"
 show_on_posts = true
 
@@ -65,15 +65,15 @@ pageview = true
 comment = true
 
 [config.profile]
-name = "navfolio"
-handle = "@navfolio"
-role = "A Cat Developer"
-company = "Independent Studio"
-location = "Remote"
-email = "hello@navfolio.site"
-website = "https://astro.navfolio.site/"
-github = "https://github.com/dodolalorc/astro-navfolio"
-meta = "Open-source maintainer"
+name = "YOUR_NAME"
+handle = "@YOUR_HANDLE"
+role = "YOUR_ROLE"
+company = "YOUR_COMPANY"
+location = "YOUR_LOCATION"
+email = "your@email.com"
+website = "https://your-site.github.io"
+github = "https://github.com/YOUR_GITHUB"
+meta = "YOUR_META"
 avatar = "/images/logo.png"
 
 [[config.topNav.links]]
@@ -83,10 +83,6 @@ href = "/"
 [[config.topNav.links]]
 label = "Blog"
 href = "/blog"
-
-[[config.topNav.links]]
-label = "Projects"
-href = "/projects"
 
 [[config.topNav.links]]
 label = "Vibe"
@@ -101,22 +97,16 @@ layout = "grid"
 
 [config.home.quote]
 text = [
-  "Navigate your world,",
-  "Showcase your story,",
-  "and keep everything in one place.",
+  "Add your quote here."
 ]
 image = "/images/logo-with-name.png"
 
 [config.home.intro]
-title = "here is navfolio"
-name = "navfolio"
+title = "hi, I'm ..."
+name = "Your Name"
 body = [
-  "The name combines \"Navigation\" and \"Portfolio\".",
-  "Navfolio prioritizes lightweight organization, seamless reading, and developer-friendly aesthetics.",
-  "It’s less a resume than a personal OS for your ideas, projects, notes, and online presence.",
-  "这个名字融合了“导航”与“作品集”。",
-  "Navfolio 专注于轻量级组织、流畅的阅读体验，以及对开发者友好的美学设计。",
-  "它不像一份简历，更像是一个属于你自己的个人操作系统——承载想法、项目、笔记与网络足迹。",
+  "Add a short bio here.",
+  "What do you work on? What do you care about?"
 ]
 image = "/images/logo-cat.png"
 
@@ -129,38 +119,27 @@ startDate = ""
 dateArchiveBaseHref = ""
 
 [[config.home.navigation]]
-icon = "compass"
-title = "Portfolio"
-subtitle = "Selected work and case studies"
-href = "https://astro.navfolio.site/"
-
-[[config.home.navigation]]
 icon = "pen"
 title = "Blog"
 subtitle = "Essays, notes, and field reports"
 href = "/blog"
 
 [[config.home.navigation]]
-icon = "briefcase"
-title = "Resume"
-subtitle = "Career profile and experience"
-href = "https://github.com/dodolalorc/navfolio"
+icon = "compass"
+title = "Vibe"
+subtitle = "Short thoughts and fragments"
+href = "/vibe"
 
 [[config.home.navigation]]
-icon = "github"
-title = "Open Source"
-subtitle = "Code, experiments, and tools"
-href = "https://github.com/dodolalorc/astro-navfolio"
+icon = "briefcase"
+title = "About"
+subtitle = "Who I am and what I do"
+href = "/about"
 
 [[config.home.connect]]
 label = "GitHub"
-href = "https://github.com/dodolalorc/astro-navfolio"
+href = "https://github.com/YOUR_GITHUB"
 icon = "github"
-
-[[config.home.connect]]
-label = "Website"
-href = "https://astro.navfolio.site/"
-icon = "compass"
 
 [[config.home.connect]]
 label = "Blog"
@@ -168,31 +147,23 @@ href = "/blog"
 icon = "book"
 
 [[config.home.connect]]
-label = "Projects"
-href = "/projects"
-icon = "repo"
+label = "Vibe"
+href = "/vibe"
+icon = "compass"
 
 [[config.home.connect]]
 label = "Email"
-href = "mailto:hello@navfolio.site"
+href = "mailto:your@email.com"
 icon = "mail"
 
 [[config.home.doing]]
-text = "Shipping a personal dashboard template"
+text = "Add what you are working on"
 mark = "01"
 
 [[config.home.doing]]
-text = "Writing reusable notes for future projects"
+text = "Something you are reading or learning"
 mark = "02"
 
 [[config.home.doing]]
-text = "Improving static-site publishing workflow"
+text = "A project or idea you are exploring"
 mark = "03"
-
-[[config.home.doing]]
-text = "Collecting useful developer resources"
-mark = "04"
-
-[[config.home.doing]]
-text = "Exploring small open-source ideas"
-mark = "05"
