@@ -103,7 +103,7 @@ text = [
 image = "/images/logo-with-name.png"
 
 [config.home.intro]
-title = "hi, I'm Sai"
+title = "I'm Sai Aasrith"
 name = "Sai Aasrith"
 body = [
   "Software engineer at AWS, working on distributed systems and AI agents.",
