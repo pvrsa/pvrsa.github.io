@@ -77,23 +77,21 @@ const shouldShowTocAction = showTocIcon && tocItems.length > 0;
   </a>
 
   <nav class="nav-links" aria-label="Article navigation">
-    {
-      links.map((link) =>
-        link.disabled ? (
-          <span
-            class="nav-link nav-link-placeholder"
-            aria-disabled="true"
-            title="Projects content placeholder"
-          >
-            {link.label}
-          </span>
-        ) : (
-          <a class:list={['nav-link', { active: isActive(link.href) }]} href={withBase(link.href)}>
-            {link.label}
-          </a>
-        ),
-      )
-    }
+    {links.map((link) =>
+      link.disabled ? (
+        <span
+          class="nav-link nav-link-placeholder"
+          aria-disabled="true"
+          title="Projects content placeholder"
+        >
+          {link.label}
+        </span>
+      ) : (
+        <a class:list={['nav-link', { active: isActive(link.href) }]} href={withBase(link.href)}>
+          {link.label}
+        </a>
+      ),
+    )}
   </nav>
 
   <nav
@@ -102,23 +100,21 @@ const shouldShowTocAction = showTocIcon && tocItems.length > 0;
     aria-label="Mobile navigation"
     data-mobile-menu
   >
-    {
-      links.map((link) =>
-        link.disabled ? (
-          <span class="mobile-menu-link mobile-menu-placeholder" aria-disabled="true">
-            {link.label}
-          </span>
-        ) : (
-          <a
-            class:list={['mobile-menu-link', { active: isActive(link.href) }]}
-            href={withBase(link.href)}
-            data-mobile-menu-link
-          >
-            {link.label}
-          </a>
-        ),
-      )
-    }
+    {links.map((link) =>
+      link.disabled ? (
+        <span class="mobile-menu-link mobile-menu-placeholder" aria-disabled="true">
+          {link.label}
+        </span>
+      ) : (
+        <a
+          class:list={['mobile-menu-link', { active: isActive(link.href) }]}
+          href={withBase(link.href)}
+          data-mobile-menu-link
+        >
+          {link.label}
+        </a>
+      ),
+    )}
   </nav>
 
   <div class="nav-actions" aria-label="Page actions">
@@ -136,46 +132,42 @@ const shouldShowTocAction = showTocIcon && tocItems.length > 0;
       <Sun class="theme-icon-sun" size={17} stroke-width={2} />
     </button>
     {search.enabled && <SiteSearch search={search} />}
-    {
-      shouldShowTocAction && (
-        <button
-          class="toc-action"
-          type="button"
-          aria-label="Open table of contents"
-          aria-expanded="false"
-          aria-controls="mobile-toc-menu"
-          title="Table of contents"
-          data-mobile-toc-trigger
-        >
-          <ListTree size={17} stroke-width={2} />
-        </button>
-      )
-    }
+    {shouldShowTocAction && (
+      <button
+        class="toc-action"
+        type="button"
+        aria-label="Open table of contents"
+        aria-expanded="false"
+        aria-controls="mobile-toc-menu"
+        title="Table of contents"
+        data-mobile-toc-trigger
+      >
+        <ListTree size={17} stroke-width={2} />
+      </button>
+    )}
   </div>
 
-  {
-    shouldShowTocAction && (
-      <nav
-        class="mobile-toc-panel"
-        id="mobile-toc-menu"
-        aria-label="Article table of contents"
-        data-nav-toc-menu
-        data-toc-root
-      >
-        <p>Table of contents</p>
-        <ol>
-          {tocItems.map((item, index) => (
-            <li>
-              <a href={item.href} data-nav-toc-link data-toc-link data-toc-hash={item.href}>
-                <span>{index + 1}</span>
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ol>
-      </nav>
-    )
-  }
+  {shouldShowTocAction && (
+    <nav
+      class="mobile-toc-panel"
+      id="mobile-toc-menu"
+      aria-label="Article table of contents"
+      data-nav-toc-menu
+      data-toc-root
+    >
+      <p>Table of contents</p>
+      <ol>
+        {tocItems.map((item, index) => (
+          <li>
+            <a href={item.href} data-nav-toc-link data-toc-link data-toc-hash={item.href}>
+              <span>{index + 1}</span>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )}
 </header>
 
 <script>

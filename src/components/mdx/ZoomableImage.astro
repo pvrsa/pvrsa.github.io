@@ -19,26 +19,24 @@ const previewLabel = altText.trim() ? `Open image preview: ${altText}` : 'Open i
 const hasImageSource = resolvedSrc !== undefined && resolvedSrc !== null;
 ---
 
-{
-  hasImageSource && (
-    <span class="zoomable-image" data-zoomable-image data-preview-label={previewLabel}>
-      <img
-        {...imageProps}
-        src={resolvedSrc}
-        alt={alt}
-        width={resolvedWidth}
-        height={resolvedHeight}
-        class={imageClass || undefined}
-        data-zoomable-image-target
-      />
-      <span class="zoomable-image__veil" aria-hidden="true">
-        <span class="zoomable-image__icon">
-          <ZoomIn size={20} strokeWidth={1.8} />
-        </span>
+{hasImageSource && (
+  <span class="zoomable-image" data-zoomable-image data-preview-label={previewLabel}>
+    <img
+      {...imageProps}
+      src={resolvedSrc}
+      alt={alt}
+      width={resolvedWidth}
+      height={resolvedHeight}
+      class={imageClass || undefined}
+      data-zoomable-image-target
+    />
+    <span class="zoomable-image__veil" aria-hidden="true">
+      <span class="zoomable-image__icon">
+        <ZoomIn size={20} strokeWidth={1.8} />
       </span>
     </span>
-  )
-}
+  </span>
+)}
 
 <script>
   import { initZoomableImages } from '../../utils/zoomable-images';

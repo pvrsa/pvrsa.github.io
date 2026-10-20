@@ -18,33 +18,31 @@ const href = `${basePath}/blog/series/${slug}/`;
   <div class="series-heading">
     <div>
       <p>Series</p>
-      <h2><a href={href}>{name}</a></h2>
+      <h2>
+        <a href={href}>{name}</a>
+      </h2>
     </div>
     <SeriesProgress current={posts.length} total={posts.length} />
   </div>
 
   <ol class="series-posts">
-    {
-      posts.slice(0, 4).map((post) => (
-        <li>
-          <a href={`${basePath}/blog/${post.id}/`}>
-            <span>{post.data.title}</span>
-            <small>
-              <FormattedDate date={post.data.date} />
-            </small>
-          </a>
-        </li>
-      ))
-    }
+    {posts.slice(0, 4).map((post) => (
+      <li>
+        <a href={`${basePath}/blog/${post.id}/`}>
+          <span>{post.data.title}</span>
+          <small>
+            <FormattedDate date={post.data.date} />
+          </small>
+        </a>
+      </li>
+    ))}
   </ol>
 
-  {
-    posts.length > 4 && (
-      <a class="series-more" href={href}>
-        View {posts.length - 4} more
-      </a>
-    )
-  }
+  {posts.length > 4 && (
+    <a class="series-more" href={href}>
+      View {posts.length - 4} more
+    </a>
+  )}
 </article>
 
 <style>

@@ -95,7 +95,12 @@ const photos = (await getCollection('gallery'))
         left: 0;
         right: 0;
         padding: 2.5rem 2rem 1.5rem;
-        background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.6) 60%, transparent 100%);
+        background: linear-gradient(
+          to top,
+          rgba(15, 23, 42, 0.95) 0%,
+          rgba(15, 23, 42, 0.6) 60%,
+          transparent 100%
+        );
         color: #f8fafc;
       }
 
@@ -128,7 +133,9 @@ const photos = (await getCollection('gallery'))
         justify-content: center;
         cursor: pointer;
         z-index: 10;
-        transition: background 0.2s, transform 0.2s;
+        transition:
+          background 0.2s,
+          transform 0.2s;
         backdrop-filter: blur(4px);
       }
 
@@ -165,7 +172,10 @@ const photos = (await getCollection('gallery'))
         background: var(--paper-card-bg);
         border: 1px solid var(--paper-card-border);
         box-shadow: var(--paper-card-shadow);
-        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          border-color 0.2s ease;
       }
 
       .photo-card:hover {
@@ -236,7 +246,9 @@ const photos = (await getCollection('gallery'))
                   <div class="slide-meta">
                     {item.data.location && <span>📍 {item.data.location}</span>}
                     {item.data.camera && <span>📷 {item.data.camera}</span>}
-                    <span>• <FormattedDate date={item.data.date} /></span>
+                    <span>
+                      • <FormattedDate date={item.data.date} />
+                    </span>
                   </div>
                   {item.data.description && (
                     <p style="margin: 0.5rem 0 0; font-size: 0.9rem; opacity: 0.9;">
@@ -254,12 +266,7 @@ const photos = (await getCollection('gallery'))
       <section class="photo-grid">
         {photos.map((item) => (
           <article class="photo-card">
-            <img
-              src={item.data.image}
-              alt={item.data.title}
-              class="photo-thumb"
-              loading="lazy"
-            />
+            <img src={item.data.image} alt={item.data.title} class="photo-thumb" loading="lazy" />
             <div class="card-info">
               <h3 class="card-title">{item.data.title}</h3>
               {item.data.location && (

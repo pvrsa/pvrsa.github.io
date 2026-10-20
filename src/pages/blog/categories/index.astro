@@ -70,17 +70,15 @@ const categories = getAllCategories(await getCollection('blog', ({ data }) => !d
         </p>
       </header>
 
-      {
-        categories.length > 0 ? (
-          <section class="category-grid" aria-label="Blog categories">
-            {categories.map((category) => (
-              <CategoryCard name={category.name} slug={category.slug} count={category.count} />
-            ))}
-          </section>
-        ) : (
-          <p class="empty-note">No categories have been added yet.</p>
-        )
-      }
+      {categories.length > 0 ? (
+        <section class="category-grid" aria-label="Blog categories">
+          {categories.map((category) => (
+            <CategoryCard name={category.name} slug={category.slug} count={category.count} />
+          ))}
+        </section>
+      ) : (
+        <p class="empty-note">No categories have been added yet.</p>
+      )}
     </main>
     <Footer />
   </body>

@@ -10,20 +10,24 @@ Personal website, portfolio, and digital notebook built with [Astro](https://ast
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - **Node.js**: `>= 22.12.0` (or [Bun](https://bun.sh))
 - **npm** or **bun**
 
 ### 1. Install Dependencies
 
 Using `npm`:
+
 ```sh
 npm install --legacy-peer-deps
 ```
-*(or using Bun: `bun install`)*
+
+_(or using Bun: `bun install`)_
 
 ### 2. Local Development
 
 Start the development server:
+
 ```sh
 npm run dev
 # or
@@ -35,6 +39,7 @@ Open [http://localhost:4321](http://localhost:4321) in your browser.
 ### 3. Production Build & Preview
 
 Build the static site:
+
 ```sh
 npm run build
 # or
@@ -42,6 +47,7 @@ npx astro build
 ```
 
 Preview the production build locally:
+
 ```sh
 npm run preview
 # or
@@ -52,15 +58,15 @@ npx astro preview
 
 ## 🛠 Available Scripts
 
-| Command | Description |
-| :--- | :--- |
-| `npm run dev` | Starts local dev server at `http://localhost:4321` |
-| `npm run build` | Builds static site to `dist/` and compiles search index |
-| `npm run preview` | Previews the production build locally |
-| `npm run lint` | Runs ESLint |
-| `npm run format` | Formats code with Prettier |
-| `bun run post:new <slug>` | Generates a new blog post file |
-| `bun run vibe:new <slug>` | Generates a new vibe/note entry |
+| Command                   | Description                                             |
+| :------------------------ | :------------------------------------------------------ |
+| `npm run dev`             | Starts local dev server at `http://localhost:4321`      |
+| `npm run build`           | Builds static site to `dist/` and compiles search index |
+| `npm run preview`         | Previews the production build locally                   |
+| `npm run lint`            | Runs ESLint                                             |
+| `npm run format`          | Formats code with Prettier                              |
+| `bun run post:new <slug>` | Generates a new blog post file                          |
+| `bun run vibe:new <slug>` | Generates a new vibe/note entry                         |
 
 ---
 

@@ -62,7 +62,9 @@ const latestPhotos = (await getCollection('gallery'))
                 <Icon name="sparkle" size={14} />
                 <span>Featured Tools & Builds</span>
               </span>
-              <a href="/projects" class="section-more">View all →</a>
+              <a href="/projects" class="section-more">
+                View all →
+              </a>
             </div>
             <div class="summary-cards-grid">
               {latestProjects.map((proj) => (
@@ -91,13 +93,17 @@ const latestPhotos = (await getCollection('gallery'))
                 <Icon name="pen" size={14} />
                 <span>Writing & Systems Essays</span>
               </span>
-              <a href="/blog" class="section-more">All posts →</a>
+              <a href="/blog" class="section-more">
+                All posts →
+              </a>
             </div>
             <div class="post-list">
               {latestPosts.map((post) => (
                 <a href={`/blog/${post.id}/`} class="post-item">
                   <span class="post-title">{post.data.title}</span>
-                  <span class="post-date"><FormattedDate date={post.data.date} /></span>
+                  <span class="post-date">
+                    <FormattedDate date={post.data.date} />
+                  </span>
                 </a>
               ))}
             </div>
@@ -112,7 +118,9 @@ const latestPhotos = (await getCollection('gallery'))
                 <Icon name="bookmark" size={14} />
                 <span>The Stash · Recent Takes</span>
               </span>
-              <a href="/stash" class="section-more">All media →</a>
+              <a href="/stash" class="section-more">
+                All media →
+              </a>
             </div>
             <div class="stash-list">
               {latestReviews.map((r) => (
@@ -121,9 +129,7 @@ const latestPhotos = (await getCollection('gallery'))
                     <span class="stash-title">{r.data.title}</span>
                     <span class="stash-score">{r.data.rating}/10</span>
                   </div>
-                  {r.data.verdict && (
-                    <p class="stash-verdict">"{r.data.verdict}"</p>
-                  )}
+                  {r.data.verdict && <p class="stash-verdict">"{r.data.verdict}"</p>}
                 </div>
               ))}
             </div>
@@ -138,7 +144,9 @@ const latestPhotos = (await getCollection('gallery'))
                 <Icon name="camera" size={14} />
                 <span>Gallery · Frames</span>
               </span>
-              <a href="/gallery" class="section-more">View full →</a>
+              <a href="/gallery" class="section-more">
+                View full →
+              </a>
             </div>
             <div class="filmstrip">
               {latestPhotos.map((photo) => (
@@ -216,7 +224,9 @@ const latestPhotos = (await getCollection('gallery'))
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    transition:
+      transform 0.18s ease,
+      box-shadow 0.18s ease;
   }
 
   .micro-card:hover {
@@ -284,7 +294,10 @@ const latestPhotos = (await getCollection('gallery'))
     border: 1px solid var(--paper-card-border);
     box-shadow: var(--paper-card-shadow);
     text-decoration: none;
-    transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+    transition:
+      transform 0.15s,
+      border-color 0.15s,
+      box-shadow 0.15s;
   }
 
   .post-item:hover {
@@ -318,7 +331,9 @@ const latestPhotos = (await getCollection('gallery'))
     background: var(--paper-card-bg);
     border: 1px solid var(--paper-card-border);
     box-shadow: var(--paper-card-shadow);
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    transition:
+      transform 0.18s ease,
+      box-shadow 0.18s ease;
   }
 
   .stash-item:hover {
@@ -370,7 +385,9 @@ const latestPhotos = (await getCollection('gallery'))
     box-shadow: var(--paper-card-shadow);
     aspect-ratio: 16 / 10;
     text-decoration: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
   .film-frame:hover {

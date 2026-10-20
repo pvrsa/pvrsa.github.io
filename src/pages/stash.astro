@@ -18,7 +18,7 @@ const reviews = await Promise.all(
   reviewEntries.map(async (entry) => {
     const { Content } = await render(entry);
     return { entry, Content };
-  })
+  }),
 );
 
 const typeIcons: Record<string, string> = {
@@ -120,7 +120,10 @@ const typeLabels: Record<string, string> = {
         background: var(--paper-card-bg);
         border: 1px solid var(--paper-card-border);
         box-shadow: var(--paper-card-shadow);
-        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          border-color 0.2s ease;
       }
 
       .review-card:hover {
@@ -240,10 +243,18 @@ const typeLabels: Record<string, string> = {
         <p>A quiet repository of books, cinema, and television that left an impression.</p>
 
         <div class="filter-bar" role="group" aria-label="Filter reviews by type">
-          <button class="filter-btn active" data-filter="all" type="button">All</button>
-          <button class="filter-btn" data-filter="movie" type="button">Movies</button>
-          <button class="filter-btn" data-filter="tv" type="button">TV Shows</button>
-          <button class="filter-btn" data-filter="book" type="button">Books</button>
+          <button class="filter-btn active" data-filter="all" type="button">
+            All
+          </button>
+          <button class="filter-btn" data-filter="movie" type="button">
+            Movies
+          </button>
+          <button class="filter-btn" data-filter="tv" type="button">
+            TV Shows
+          </button>
+          <button class="filter-btn" data-filter="book" type="button">
+            Books
+          </button>
         </div>
       </header>
 
@@ -266,14 +277,12 @@ const typeLabels: Record<string, string> = {
             <div class="review-meta">
               {entry.data.creator && <span>By {entry.data.creator}</span>}
               {entry.data.year && <span>({entry.data.year})</span>}
-              <span>• Reviewed on <FormattedDate date={entry.data.date} /></span>
+              <span>
+                • Reviewed on <FormattedDate date={entry.data.date} />
+              </span>
             </div>
 
-            {entry.data.verdict && (
-              <div class="verdict-line">
-                "{entry.data.verdict}"
-              </div>
-            )}
+            {entry.data.verdict && <div class="verdict-line">"{entry.data.verdict}"</div>}
 
             <div class="review-body">
               <Content />

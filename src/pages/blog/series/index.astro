@@ -59,17 +59,15 @@ const series = getAllSeries(await getCollection('blog', ({ data }) => !data.draf
         </p>
       </header>
 
-      {
-        series.length > 0 ? (
-          <section class="series-list" aria-label="Blog series">
-            {series.map((item) => (
-              <SeriesCard name={item.name} slug={item.slug} posts={item.posts} />
-            ))}
-          </section>
-        ) : (
-          <p class="empty-note">No series have been added yet.</p>
-        )
-      }
+      {series.length > 0 ? (
+        <section class="series-list" aria-label="Blog series">
+          {series.map((item) => (
+            <SeriesCard name={item.name} slug={item.slug} posts={item.posts} />
+          ))}
+        </section>
+      ) : (
+        <p class="empty-note">No series have been added yet.</p>
+      )}
     </main>
     <Footer />
   </body>

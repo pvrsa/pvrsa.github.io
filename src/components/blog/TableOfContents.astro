@@ -29,43 +29,41 @@ const canCollapse = collapsible && items.length > 3;
 const listId = collapsible ? 'mobile-article-toc-list' : undefined;
 ---
 
-{
-  hasItems && (
-    <nav
-      class:list={['toc-card', 'blog-card', { compact, collapsible, 'can-collapse': canCollapse }]}
-      aria-label="Table of contents"
-      data-toc-root
-      data-font={font}
-      data-mobile-toc={collapsible ? '' : undefined}
-      data-expanded={collapsible ? 'false' : undefined}
-    >
-      <h2>Table of contents</h2>
-      <ol id={listId}>
-        {normalizedItems.map((item, index) => (
-          <li>
-            <a href={item.href} data-toc-link data-toc-hash={item.normalizedHref}>
-              <span>{index + 1}</span>
-              {item.label}
-            </a>
-          </li>
-        ))}
-      </ol>
-      {canCollapse && (
-        <button
-          class="toc-expand"
-          type="button"
-          aria-label="Expand table of contents"
-          aria-expanded="false"
-          aria-controls={listId}
-          data-toc-expand
-        >
-          <span data-expand-label>Show all</span>
-          <i aria-hidden="true" />
-        </button>
-      )}
-    </nav>
-  )
-}
+{hasItems && (
+  <nav
+    class:list={['toc-card', 'blog-card', { compact, collapsible, 'can-collapse': canCollapse }]}
+    aria-label="Table of contents"
+    data-toc-root
+    data-font={font}
+    data-mobile-toc={collapsible ? '' : undefined}
+    data-expanded={collapsible ? 'false' : undefined}
+  >
+    <h2>Table of contents</h2>
+    <ol id={listId}>
+      {normalizedItems.map((item, index) => (
+        <li>
+          <a href={item.href} data-toc-link data-toc-hash={item.normalizedHref}>
+            <span>{index + 1}</span>
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ol>
+    {canCollapse && (
+      <button
+        class="toc-expand"
+        type="button"
+        aria-label="Expand table of contents"
+        aria-expanded="false"
+        aria-controls={listId}
+        data-toc-expand
+      >
+        <span data-expand-label>Show all</span>
+        <i aria-hidden="true" />
+      </button>
+    )}
+  </nav>
+)}
 
 <script>
   import { mountNavfolioTocSpy } from '../../utils/toc-spy';

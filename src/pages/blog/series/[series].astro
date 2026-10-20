@@ -130,21 +130,19 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
       </header>
 
       <ol class="series-stack">
-        {
-          posts.map((post) => (
-            <li class="series-item">
-              <a class="series-link" href={`${basePath}/blog/${post.id}/`}>
-                <span>
-                  <h2>{post.data.title}</h2>
-                  <p class="series-meta">
-                    <FormattedDate date={post.data.date} />
-                  </p>
-                  <p class="series-excerpt">{post.data.description}</p>
-                </span>
-              </a>
-            </li>
-          ))
-        }
+        {posts.map((post) => (
+          <li class="series-item">
+            <a class="series-link" href={`${basePath}/blog/${post.id}/`}>
+              <span>
+                <h2>{post.data.title}</h2>
+                <p class="series-meta">
+                  <FormattedDate date={post.data.date} />
+                </p>
+                <p class="series-excerpt">{post.data.description}</p>
+              </span>
+            </a>
+          </li>
+        ))}
       </ol>
     </main>
     <Footer />

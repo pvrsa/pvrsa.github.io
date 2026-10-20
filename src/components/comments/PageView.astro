@@ -11,16 +11,14 @@ const { comments } = await getSiteConfig();
 const showPageView = shouldRenderWalinePageView(comments);
 ---
 
-{
-  showPageView && (
-    <span class="meta-item page-view">
-      Pageviews{' '}
-      <span class="waline-pageview-count" data-path={pathname} aria-live="polite">
-        --
-      </span>
+{showPageView && (
+  <span class="meta-item page-view">
+    Pageviews{' '}
+    <span class="waline-pageview-count" data-path={pathname} aria-live="polite">
+      --
     </span>
-  )
-}
+  </span>
+)}
 
 <script
   type="module"

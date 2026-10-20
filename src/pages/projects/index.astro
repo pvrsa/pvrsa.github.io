@@ -117,7 +117,10 @@ const statusColors: Record<string, { bg: string; text: string }> = {
         background: var(--paper-card-bg);
         border: 1px solid var(--paper-card-border);
         box-shadow: var(--paper-card-shadow);
-        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          border-color 0.2s ease;
       }
 
       .project-card:hover {
@@ -224,13 +227,24 @@ const statusColors: Record<string, { bg: string; text: string }> = {
           <span>Craft & Lab</span>
         </div>
         <h1>Projects</h1>
-        <p>A shelf of small tools, utilities, and weekend experiments built for personal use and curiosity.</p>
+        <p>
+          A shelf of small tools, utilities, and weekend experiments built for personal use and
+          curiosity.
+        </p>
 
         <div class="filter-bar" role="group" aria-label="Filter by category">
-          <button class="filter-btn active" data-filter="all" type="button">All</button>
-          <button class="filter-btn" data-filter="CLI Tool" type="button">CLI Tools</button>
-          <button class="filter-btn" data-filter="AI Agent" type="button">AI Agents</button>
-          <button class="filter-btn" data-filter="Web App" type="button">Web Apps</button>
+          <button class="filter-btn active" data-filter="all" type="button">
+            All
+          </button>
+          <button class="filter-btn" data-filter="CLI Tool" type="button">
+            CLI Tools
+          </button>
+          <button class="filter-btn" data-filter="AI Agent" type="button">
+            AI Agents
+          </button>
+          <button class="filter-btn" data-filter="Web App" type="button">
+            Web Apps
+          </button>
         </div>
       </header>
 

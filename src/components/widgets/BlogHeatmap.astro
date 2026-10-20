@@ -69,24 +69,22 @@ function getDayHref(day: HeatmapDay) {
     </div>
   </div>
 
-  {
-    showLatest && heatmap.latestPosts.length > 0 && (
-      <aside class="latest-tip" aria-label="Latest published posts">
-        <strong>Latest</strong>
-        <div class="latest-list">
-          {heatmap.latestPosts.map((post) => (
-            <a class="latest-link" href={post.href} aria-label={`Open latest post: ${post.title}`}>
-              <em>{post.title}</em>
-              <time datetime={post.date.toISOString()}>{formatDate.format(post.date)}</time>
-              <span class="latest-icon" aria-hidden="true">
-                <Icon name="external" size={15} />
-              </span>
-            </a>
-          ))}
-        </div>
-      </aside>
-    )
-  }
+  {showLatest && heatmap.latestPosts.length > 0 && (
+    <aside class="latest-tip" aria-label="Latest published posts">
+      <strong>Latest</strong>
+      <div class="latest-list">
+        {heatmap.latestPosts.map((post) => (
+          <a class="latest-link" href={post.href} aria-label={`Open latest post: ${post.title}`}>
+            <em>{post.title}</em>
+            <time datetime={post.date.toISOString()}>{formatDate.format(post.date)}</time>
+            <span class="latest-icon" aria-hidden="true">
+              <Icon name="external" size={15} />
+            </span>
+          </a>
+        ))}
+      </div>
+    </aside>
+  )}
 
   <div class="rhythm-grid" aria-label={heatmapLabel}>
     <div class="weekday-column" aria-hidden="true">
@@ -96,38 +94,38 @@ function getDayHref(day: HeatmapDay) {
     </div>
 
     <div class="heatmap-cells" style={`--week-count: ${heatmap.weeks};`}>
-      {
-        heatmap.days.map((day) => {
-          if (day.isFuture) {
-            return <span class="heatmap-cell future-cell" aria-hidden="true" />;
-          }
+      {heatmap.days.map((day) => {
+        if (day.isFuture) {
+          return <span class="heatmap-cell future-cell" aria-hidden="true" />;
+        }
 
-          const href = getDayHref(day);
-          const content = (
-            <span
-              class={`heatmap-cell level-${day.level}`}
-              title={getDayTitle(day)}
-              aria-hidden="true"
-            />
-          );
+        const href = getDayHref(day);
+        const content = (
+          <span
+            class={`heatmap-cell level-${day.level}`}
+            title={getDayTitle(day)}
+            aria-hidden="true"
+          />
+        );
 
-          return href ? (
-            <a class="cell-link" href={href} aria-label={getDayTitle(day)}>
-              {content}
-            </a>
-          ) : (
-            <span class="cell-link static-cell" aria-label={getDayTitle(day)}>
-              {content}
-            </span>
-          );
-        })
-      }
+        return href ? (
+          <a class="cell-link" href={href} aria-label={getDayTitle(day)}>
+            {content}
+          </a>
+        ) : (
+          <span class="cell-link static-cell" aria-label={getDayTitle(day)}>
+            {content}
+          </span>
+        );
+      })}
     </div>
   </div>
 
   <footer>
     <span>Less</span>
-    {[0, 1, 2, 3, 4].map((level) => <i class={`heatmap-cell level-${level}`} />)}
+    {[0, 1, 2, 3, 4].map((level) => (
+      <i class={`heatmap-cell level-${level}`} />
+    ))}
     <span>More</span>
   </footer>
 </article>

@@ -306,7 +306,10 @@ const projects = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     status: z.enum(['Live', 'Beta', 'Prototype', 'Archived']).optional().default('Live'),
-    category: z.enum(['CLI Tool', 'Web App', 'AI Agent', 'Library', 'Experiment']).optional().default('Web App'),
+    category: z
+      .enum(['CLI Tool', 'Web App', 'AI Agent', 'Library', 'Experiment'])
+      .optional()
+      .default('Web App'),
     tags: z.array(z.string()).optional().default([]),
     demoUrl: z.string().optional(),
     githubUrl: z.string().optional(),

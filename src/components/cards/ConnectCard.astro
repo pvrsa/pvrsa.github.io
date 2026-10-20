@@ -24,16 +24,16 @@ function withBase(href: string) {
 ---
 
 <article class="glass-card connect-card">
-  <h2><Icon name="link" /> Connect</h2>
+  <h2>
+    <Icon name="link" /> Connect
+  </h2>
   <div class="connect-list">
-    {
-      items.map((item) => (
-        <a href={withBase(item.href)} aria-label={item.label}>
-          <Icon name={item.icon} />
-          <span>{item.label}</span>
-        </a>
-      ))
-    }
+    {items.map((item) => (
+      <a href={withBase(item.href)} aria-label={item.label}>
+        <Icon name={item.icon} />
+        <span>{item.label}</span>
+      </a>
+    ))}
   </div>
 </article>
 

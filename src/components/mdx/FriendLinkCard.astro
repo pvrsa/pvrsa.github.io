@@ -30,42 +30,40 @@ const normalizedItems = items.map((item) => {
 ---
 
 <div class="friend-link-list">
-  {
-    normalizedItems.map((item) => (
-      <a
-        class:list={['friend-link-card', item.hasBackgroundImage && 'friend-link-card--with-bg']}
-        href={item.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        title={item.name}
-      >
-        {item.hasBackgroundImage ? (
-          <>
-            <img
-              class="friend-link-card__bg"
-              src={item.backgroundImageUrl}
-              alt=""
-              loading="lazy"
-              decoding="async"
-              aria-hidden="true"
-            />
-            <span class="friend-link-card__bg-overlay" aria-hidden="true" />
-          </>
-        ) : null}
-        <span class="friend-link-card__avatar" aria-hidden="true">
-          {item.avatar ? (
-            <img src={item.avatar} alt="" loading="lazy" decoding="async" />
-          ) : (
-            <span class="friend-link-card__fallback">{item.fallbackInitial}</span>
-          )}
-        </span>
-        <span class="friend-link-card__meta">
-          <strong class="friend-link-card__name">{item.name}</strong>
-          {item.summary ? <span class="friend-link-card__bio">{item.summary}</span> : null}
-        </span>
-      </a>
-    ))
-  }
+  {normalizedItems.map((item) => (
+    <a
+      class:list={['friend-link-card', item.hasBackgroundImage && 'friend-link-card--with-bg']}
+      href={item.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      title={item.name}
+    >
+      {item.hasBackgroundImage ? (
+        <>
+          <img
+            class="friend-link-card__bg"
+            src={item.backgroundImageUrl}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            aria-hidden="true"
+          />
+          <span class="friend-link-card__bg-overlay" aria-hidden="true" />
+        </>
+      ) : null}
+      <span class="friend-link-card__avatar" aria-hidden="true">
+        {item.avatar ? (
+          <img src={item.avatar} alt="" loading="lazy" decoding="async" />
+        ) : (
+          <span class="friend-link-card__fallback">{item.fallbackInitial}</span>
+        )}
+      </span>
+      <span class="friend-link-card__meta">
+        <strong class="friend-link-card__name">{item.name}</strong>
+        {item.summary ? <span class="friend-link-card__bio">{item.summary}</span> : null}
+      </span>
+    </a>
+  ))}
 </div>
 
 <style>
