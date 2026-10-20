@@ -21,11 +21,16 @@ const locations = Array.from(
       .map((p) => {
         if (!p.data.location) return null;
         if (p.data.location.includes('Banff')) return 'Banff & Canadian Rockies';
-        if (p.data.location.includes('Seattle') || p.data.location.includes('Pacific Northwest') || p.data.location.includes('WA')) return 'Pacific Northwest';
+        if (
+          p.data.location.includes('Seattle') ||
+          p.data.location.includes('Pacific Northwest') ||
+          p.data.location.includes('WA')
+        )
+          return 'Pacific Northwest';
         return p.data.location;
       })
-      .filter(Boolean)
-  )
+      .filter(Boolean),
+  ),
 );
 ---
 
@@ -193,7 +198,9 @@ const locations = Array.from(
         justify-content: center;
         cursor: pointer;
         z-index: 10;
-        transition: background 0.2s, transform 0.2s;
+        transition:
+          background 0.2s,
+          transform 0.2s;
         backdrop-filter: blur(6px);
       }
 
@@ -243,7 +250,10 @@ const locations = Array.from(
         background: var(--paper-card-bg);
         border: 1px solid var(--paper-card-border);
         box-shadow: var(--paper-card-shadow);
-        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          border-color 0.2s ease;
         display: block;
       }
 
@@ -301,12 +311,21 @@ const locations = Array.from(
           <span>Frames & Travels</span>
         </div>
         <h1>Gallery & Journeys</h1>
-        <p>A visual log of travels, trail notes, and landscape stills across Banff, the Pacific Northwest, and beyond.</p>
+        <p>
+          A visual log of travels, trail notes, and landscape stills across Banff, the Pacific
+          Northwest, and beyond.
+        </p>
 
         <div class="filter-bar" role="group" aria-label="Filter photos by travel destination">
-          <button class="filter-btn active" data-filter="all" type="button">All Places</button>
-          <button class="filter-btn" data-filter="Banff" type="button">Banff & Canadian Rockies</button>
-          <button class="filter-btn" data-filter="Pacific Northwest" type="button">Pacific Northwest</button>
+          <button class="filter-btn active" data-filter="all" type="button">
+            All Places
+          </button>
+          <button class="filter-btn" data-filter="Banff" type="button">
+            Banff & Canadian Rockies
+          </button>
+          <button class="filter-btn" data-filter="Pacific Northwest" type="button">
+            Pacific Northwest
+          </button>
         </div>
       </header>
 
@@ -336,7 +355,9 @@ const locations = Array.from(
                   <div class="slide-meta">
                     {item.data.location && <span>📍 {item.data.location}</span>}
                     {item.data.camera && <span>📷 {item.data.camera}</span>}
-                    <span>• <FormattedDate date={item.data.date} /></span>
+                    <span>
+                      • <FormattedDate date={item.data.date} />
+                    </span>
                   </div>
                 </div>
               </div>
@@ -348,18 +369,11 @@ const locations = Array.from(
       <h2 class="section-subhead">All Moments</h2>
       <section class="photo-grid">
         {photos.map((item) => {
-          const regionTag = item.data.location?.includes('Banff')
-            ? 'Banff'
-            : 'Pacific Northwest';
+          const regionTag = item.data.location?.includes('Banff') ? 'Banff' : 'Pacific Northwest';
 
           return (
             <article class="photo-card" data-region={regionTag}>
-              <img
-                src={item.data.image}
-                alt={item.data.title}
-                class="photo-img"
-                loading="lazy"
-              />
+              <img src={item.data.image} alt={item.data.title} class="photo-img" loading="lazy" />
               <div class="card-info">
                 <h3 class="card-title">{item.data.title}</h3>
                 {item.data.description && <p class="card-desc">{item.data.description}</p>}

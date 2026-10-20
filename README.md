@@ -1,6 +1,6 @@
 # Sai Aasrith — Portfolio & Personal Website
 
-Personal website, portfolio, and digital notebook built with [Astro](https://astro.build), [Tailwind CSS v4](https://tailwindcss.com), and [Pagefind](https://pagefind.app).
+Personal website, engineering portfolio, media notes, and travel journal built with [Astro 7](https://astro.build), [Tailwind CSS v4](https://tailwindcss.com), and [Pagefind](https://pagefind.app).
 
 - **Live Site**: [pvrsa.github.io](https://pvrsa.github.io)
 - **Author**: Sai Aasrith (Software Engineer — Distributed Systems & AI Agents)
@@ -11,18 +11,14 @@ Personal website, portfolio, and digital notebook built with [Astro](https://ast
 
 ### Prerequisites
 
-- **Node.js**: `>= 22.12.0` (or [Bun](https://bun.sh))
-- **npm** or **bun**
+- **Node.js**: `>= 22.12.0`
+- **npm**
 
 ### 1. Install Dependencies
 
-Using `npm`:
-
 ```sh
-npm install --legacy-peer-deps
+npm install
 ```
-
-_(or using Bun: `bun install`)_
 
 ### 2. Local Development
 
@@ -38,7 +34,7 @@ Open [http://localhost:4321](http://localhost:4321) in your browser.
 
 ### 3. Production Build & Preview
 
-Build the static site:
+Build the static site and generate the Pagefind search index:
 
 ```sh
 npm run build
@@ -58,57 +54,62 @@ npx astro preview
 
 ## 🛠 Available Scripts
 
-| Command                   | Description                                             |
-| :------------------------ | :------------------------------------------------------ |
-| `npm run dev`             | Starts local dev server at `http://localhost:4321`      |
-| `npm run build`           | Builds static site to `dist/` and compiles search index |
-| `npm run preview`         | Previews the production build locally                   |
-| `npm run lint`            | Runs ESLint                                             |
-| `npm run format`          | Formats code with Prettier                              |
-| `bun run post:new <slug>` | Generates a new blog post file                          |
-| `bun run vibe:new <slug>` | Generates a new vibe/note entry                         |
+| Command                | Description                                                              |
+| :--------------------- | :----------------------------------------------------------------------- |
+| `npm run dev`          | Starts local development server at `http://localhost:4321`               |
+| `npm run build`        | Builds static site to `dist/` and compiles English Pagefind search index |
+| `npm run preview`      | Previews the production build locally                                    |
+| `npm run lint`         | Runs ESLint (`@typescript-eslint/no-deprecated`)                         |
+| `npm run format`       | Formats code with Prettier                                               |
+| `npm run format:check` | Runs linting and checks formatting consistency                           |
 
 ---
 
 ## 📁 Project Structure
 
 ```text
-├── public/                # Static assets, icons, and images
+├── public/
+│   └── photos/            # High-resolution photography & travel stills
 ├── src/
 │   ├── config/
 │   │   └── site.toml      # Site settings, profile bio, social links & navigation
 │   ├── content/
-│   │   ├── about.mdx      # About page content
-│   │   ├── blog/          # Long-form writing & articles
-│   │   ├── projects/      # Project shelf & documentation
-│   │   └── vibe/          # Short thoughts & quick updates
+│   │   ├── about.mdx      # About page, experience, and background
+│   │   ├── blog/          # In-depth technical & systems essays
+│   │   ├── gallery/       # Photography moments & travel destinations
+│   │   ├── projects/      # Tools, Android apps, and Wear OS projects
+│   │   └── reviews/       # "The Stash" — Book, movie, and TV ratings & takes
 │   ├── components/        # Reusable Astro & UI components
 │   ├── layouts/           # Base and article layouts
-│   ├── pages/             # Astro file-based routes
-│   └── styles/            # Tailwind theme, typography & global CSS
+│   ├── pages/
+│   │   ├── index.astro    # Minimal summary dashboard
+│   │   ├── projects/      # Projects shelf
+│   │   ├── stash.astro    # "The Stash" reviews stream
+│   │   ├── gallery.astro  # Frames & Travels gallery
+│   │   └── blog/          # Writing archive & category pages
+│   └── styles/            # Theme palettes, typography & global CSS
 ├── astro.config.mjs       # Astro configuration
 └── package.json           # Dependencies and scripts
 ```
 
 ---
 
-## ⚙️ Customization
+## ⚙️ Adding New Content
 
-Most site data and personal information can be customized directly without touching component code:
-
-- **Profile & Site Metadata**: Update [`src/config/site.toml`](src/config/site.toml) to modify your name, bio, social links, navigation items, and theme palette.
-- **About Page**: Edit [`src/content/about.mdx`](src/content/about.mdx) to update your background, experience, and skills.
-- **Articles & Projects**: Add new markdown/MDX files under `src/content/blog/` or `src/content/projects/`.
+- **Add a Project**: Add a new `.md` file to [`src/content/projects/`](src/content/projects/) with `title`, `description`, `category` (`Mobile App`, `Wear OS`, `AI Agent`, `CLI Tool`, `Web App`), `tags`, and `githubUrl`.
+- **Add a Review ("The Stash")**: Add a new `.md` file to [`src/content/reviews/`](src/content/reviews/) with `type` (`movie`, `tv`, `book`), `rating` (0–10), and a highlighted `verdict`.
+- **Add a Photo / Travel Moment**: Drop the `.jpg` into `public/photos/` and create a `.md` in [`src/content/gallery/`](src/content/gallery/) with `location`, `camera`, and `title`.
+- **Add a Blog Post**: Add a new `.md` file to [`src/content/blog/`](src/content/blog/).
+- **Update About / Bio**: Edit [`src/content/about.mdx`](src/content/about.mdx) or [`src/config/site.toml`](src/config/site.toml).
 
 ---
 
 ## 🚢 Deployment
 
-The site is configured as a static site and automatically deploys to **GitHub Pages** on push to `main` via GitHub Actions (`.github/workflows/deploy.yml`).
+The site is configured as a static site and automatically deploys to **GitHub Pages** on push to `main` via GitHub Actions ([`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)).
 
 ---
 
 ## 📄 License & Credits
 
-- Based on the [astro-navfolio](https://github.com/dodolalorc/astro-navfolio) template.
 - Licensed under the [MIT License](LICENSE).
