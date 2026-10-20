@@ -307,7 +307,7 @@ const projects = defineCollection({
     date: z.coerce.date(),
     status: z.enum(['Live', 'Beta', 'Prototype', 'Archived']).optional().default('Live'),
     category: z
-      .enum(['CLI Tool', 'Web App', 'AI Agent', 'Library', 'Experiment'])
+      .enum(['CLI Tool', 'Web App', 'AI Agent', 'Mobile App', 'Wear OS', 'Library', 'Experiment'])
       .optional()
       .default('Web App'),
     tags: z.array(z.string()).optional().default([]),
