@@ -13,14 +13,28 @@ const palette = theme.palette;
 const photos = (await getCollection('gallery'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Extract unique regions/locations
+const locations = Array.from(
+  new Set(
+    photos
+      .map((p) => {
+        if (!p.data.location) return null;
+        if (p.data.location.includes('Banff')) return 'Banff & Canadian Rockies';
+        if (p.data.location.includes('Seattle') || p.data.location.includes('Pacific Northwest') || p.data.location.includes('WA')) return 'Pacific Northwest';
+        return p.data.location;
+      })
+      .filter(Boolean)
+  )
+);
 ---
 
 <!doctype html>
 <html lang="en" data-palette={palette}>
   <head>
     <BaseHead
-      title={`Gallery | ${site.title}`}
-      description="Visual frames, film notes, and photography from travels and the Pacific Northwest."
+      title={`Frames & Travels | ${site.title}`}
+      description="Visual journal, photography, and travel stills from Banff, the Pacific Northwest, and journeys beyond."
     />
     <style>
       main {
@@ -30,7 +44,7 @@ const photos = (await getCollection('gallery'))
       }
 
       .gallery-header {
-        margin-bottom: 2.5rem;
+        margin-bottom: 2.25rem;
       }
 
       .kicker {
@@ -58,6 +72,35 @@ const photos = (await getCollection('gallery'))
         color: var(--paper-muted);
         margin: 0;
         line-height: 1.6;
+      }
+
+      /* Region Filter Bar */
+      .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+      }
+
+      .filter-btn {
+        appearance: none;
+        border: 1px solid var(--paper-card-border);
+        background: var(--paper-card-bg);
+        color: var(--paper-muted);
+        box-shadow: var(--paper-card-shadow);
+        padding: 0.35rem 0.95rem;
+        border-radius: 9999px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: var(--paper-theme, #059669);
+        color: #ffffff;
+        border-color: var(--paper-theme, #059669);
       }
 
       /* Portrait-optimized Carousel */
@@ -117,8 +160,15 @@ const photos = (await getCollection('gallery'))
         margin: 0 0 0.35rem;
       }
 
+      .slide-desc {
+        font-size: 0.9rem;
+        color: #cbd5e1;
+        margin: 0 0 0.5rem;
+        line-height: 1.5;
+      }
+
       .slide-meta {
-        font-size: 0.85rem;
+        font-size: 0.82rem;
         color: #94a3b8;
         display: flex;
         flex-wrap: wrap;
@@ -225,12 +275,20 @@ const photos = (await getCollection('gallery'))
         margin: 0 0 0.25rem;
       }
 
+      .card-desc {
+        font-size: 0.82rem;
+        color: var(--paper-muted);
+        margin: 0 0 0.5rem;
+        line-height: 1.45;
+      }
+
       .card-loc {
         font-size: 0.78rem;
-        color: var(--paper-muted);
+        color: var(--paper-theme, #059669);
         display: flex;
         align-items: center;
         gap: 0.35rem;
+        font-weight: 500;
       }
     </style>
   </head>
@@ -239,11 +297,17 @@ const photos = (await getCollection('gallery'))
     <main>
       <header class="gallery-header">
         <div class="kicker">
-          <Icon name="camera" size={15} />
-          <span>Frames & Visuals</span>
+          <Icon name="compass" size={15} />
+          <span>Frames & Travels</span>
         </div>
-        <h1>Gallery</h1>
-        <p>Photographic stills from journeys across the Pacific Northwest and beyond.</p>
+        <h1>Gallery & Journeys</h1>
+        <p>A visual log of travels, trail notes, and landscape stills across Banff, the Pacific Northwest, and beyond.</p>
+
+        <div class="filter-bar" role="group" aria-label="Filter photos by travel destination">
+          <button class="filter-btn active" data-filter="all" type="button">All Places</button>
+          <button class="filter-btn" data-filter="Banff" type="button">Banff & Canadian Rockies</button>
+          <button class="filter-btn" data-filter="Pacific Northwest" type="button">Pacific Northwest</button>
+        </div>
       </header>
 
       {photos.length > 0 && (
@@ -268,6 +332,7 @@ const photos = (await getCollection('gallery'))
                 </div>
                 <div class="slide-caption-bar">
                   <h2 class="slide-title">{item.data.title}</h2>
+                  {item.data.description && <p class="slide-desc">{item.data.description}</p>}
                   <div class="slide-meta">
                     {item.data.location && <span>📍 {item.data.location}</span>}
                     {item.data.camera && <span>📷 {item.data.camera}</span>}
@@ -280,27 +345,34 @@ const photos = (await getCollection('gallery'))
         </section>
       )}
 
-      <h2 class="section-subhead">All Frames</h2>
+      <h2 class="section-subhead">All Moments</h2>
       <section class="photo-grid">
-        {photos.map((item) => (
-          <article class="photo-card">
-            <img
-              src={item.data.image}
-              alt={item.data.title}
-              class="photo-img"
-              loading="lazy"
-            />
-            <div class="card-info">
-              <h3 class="card-title">{item.data.title}</h3>
-              {item.data.location && (
-                <div class="card-loc">
-                  <Icon name="map" size={13} />
-                  <span>{item.data.location}</span>
-                </div>
-              )}
-            </div>
-          </article>
-        ))}
+        {photos.map((item) => {
+          const regionTag = item.data.location?.includes('Banff')
+            ? 'Banff'
+            : 'Pacific Northwest';
+
+          return (
+            <article class="photo-card" data-region={regionTag}>
+              <img
+                src={item.data.image}
+                alt={item.data.title}
+                class="photo-img"
+                loading="lazy"
+              />
+              <div class="card-info">
+                <h3 class="card-title">{item.data.title}</h3>
+                {item.data.description && <p class="card-desc">{item.data.description}</p>}
+                {item.data.location && (
+                  <div class="card-loc">
+                    <Icon name="map" size={13} />
+                    <span>{item.data.location}</span>
+                  </div>
+                )}
+              </div>
+            </article>
+          );
+        })}
       </section>
     </main>
     <Footer />
@@ -327,6 +399,26 @@ const photos = (await getCollection('gallery'))
       window.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft') updateSlide(currentIndex - 1);
         if (e.key === 'ArrowRight') updateSlide(currentIndex + 1);
+      });
+
+      // Filter buttons
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const photoCards = document.querySelectorAll('.photo-card');
+
+      filterBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          const filter = btn.getAttribute('data-filter');
+          photoCards.forEach((card) => {
+            if (filter === 'all' || card.getAttribute('data-region') === filter) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
       });
     </script>
   </body>
