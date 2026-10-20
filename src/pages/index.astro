@@ -1,14 +1,37 @@
 ---
+import { getCollection } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+import Icon from '../components/Icon.astro';
 import IntroCard from '../components/cards/IntroCard.astro';
 import NavigationCard from '../components/cards/NavigationCard.astro';
 import ProfileCard from '../components/cards/ProfileCard.astro';
 import DashboardFlow from '../components/layout/DashboardFlow.astro';
-import BlogHeatmap from '../components/widgets/BlogHeatmap.astro';
 import DoingCard from '../components/widgets/DoingCard.astro';
 import { getSiteConfig } from '../data/site';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const { home, profile, site } = await getSiteConfig();
+
+// Fetch latest items across collections for the minimal summary
+const latestProjects = (await getCollection('projects'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 2);
+
+const latestPosts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 2);
+
+const latestReviews = (await getCollection('reviews'))
+  .filter((r) => !r.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 2);
+
+const latestPhotos = (await getCollection('gallery'))
+  .filter((g) => !g.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
 ---
 
 <BaseLayout title={site.pageTitle} description={site.pageDescription}>
@@ -22,23 +45,368 @@ const { home, profile, site } = await getSiteConfig();
       <IntroCard intro={home.intro} quote={home.quote} />
     </Fragment>
 
-    <Fragment slot="activity">
-      <BlogHeatmap
-        weeks={home.latest.heatmapWeeks}
-        showLatest={home.latest.showHeatmapLatest}
-        latestCount={home.latest.count}
-        excludeDraft={home.latest.excludeDraft}
-        startDate={home.latest.startDate || null}
-        dateArchiveBaseHref={home.latest.dateArchiveBaseHref || undefined}
-      />
-    </Fragment>
-
     <Fragment slot="links">
       <NavigationCard items={home.navigation} />
     </Fragment>
 
     <Fragment slot="recently">
       <DoingCard items={home.doing} />
+
+      <!-- Minimal Summary Highlights -->
+      <div class="summary-shelf">
+        <!-- 1. Featured Tools / Projects -->
+        {latestProjects.length > 0 && (
+          <section class="summary-section">
+            <div class="section-title-row">
+              <span class="section-label">
+                <Icon name="sparkle" size={14} />
+                <span>Featured Tools & Builds</span>
+              </span>
+              <a href="/projects" class="section-more">View all →</a>
+            </div>
+            <div class="summary-cards-grid">
+              {latestProjects.map((proj) => (
+                <div class="micro-card">
+                  <div class="micro-header">
+                    <span class="micro-title">{proj.data.title}</span>
+                    <span class="micro-status">{proj.data.category}</span>
+                  </div>
+                  <p class="micro-desc">{proj.data.description}</p>
+                  <div class="micro-tags">
+                    {proj.data.tags.slice(0, 3).map((t) => (
+                      <span class="tag-pill">{t}</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- 2. Latest Writing -->
+        {latestPosts.length > 0 && (
+          <section class="summary-section">
+            <div class="section-title-row">
+              <span class="section-label">
+                <Icon name="pen" size={14} />
+                <span>Writing & Systems Essays</span>
+              </span>
+              <a href="/blog" class="section-more">All posts →</a>
+            </div>
+            <div class="post-list">
+              {latestPosts.map((post) => (
+                <a href={`/blog/${post.id}/`} class="post-item">
+                  <span class="post-title">{post.data.title}</span>
+                  <span class="post-date"><FormattedDate date={post.data.date} /></span>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- 3. The Stash Takes -->
+        {latestReviews.length > 0 && (
+          <section class="summary-section">
+            <div class="section-title-row">
+              <span class="section-label">
+                <Icon name="bookmark" size={14} />
+                <span>The Stash · Recent Takes</span>
+              </span>
+              <a href="/stash" class="section-more">All media →</a>
+            </div>
+            <div class="stash-list">
+              {latestReviews.map((r) => (
+                <div class="stash-item">
+                  <div class="stash-top">
+                    <span class="stash-title">{r.data.title}</span>
+                    <span class="stash-score">{r.data.rating}/10</span>
+                  </div>
+                  {r.data.verdict && (
+                    <p class="stash-verdict">"{r.data.verdict}"</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- 4. Visual Filmstrip -->
+        {latestPhotos.length > 0 && (
+          <section class="summary-section">
+            <div class="section-title-row">
+              <span class="section-label">
+                <Icon name="camera" size={14} />
+                <span>Gallery · Frames</span>
+              </span>
+              <a href="/gallery" class="section-more">View full →</a>
+            </div>
+            <div class="filmstrip">
+              {latestPhotos.map((photo) => (
+                <a href="/gallery" class="film-frame" title={photo.data.title}>
+                  <img src={photo.data.image} alt={photo.data.title} loading="lazy" />
+                  <span class="frame-caption">{photo.data.title}</span>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
     </Fragment>
   </DashboardFlow>
 </BaseLayout>
+
+<style>
+  .summary-shelf {
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--paper-line);
+  }
+
+  .summary-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .section-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--paper-text);
+  }
+
+  .section-more {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--paper-theme, #059669);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .section-more:hover {
+    opacity: 0.75;
+  }
+
+  /* Micro Cards (Projects) */
+  .summary-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 0.85rem;
+  }
+
+  .micro-card {
+    padding: 1rem;
+    border-radius: 8px;
+    background: var(--paper-card-bg);
+    border: 1px solid var(--paper-card-border);
+    box-shadow: var(--paper-card-shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .micro-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--paper-card-hover-shadow);
+  }
+
+  .micro-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.4rem;
+  }
+
+  .micro-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--paper-text);
+  }
+
+  .micro-status {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--paper-muted);
+    text-transform: uppercase;
+  }
+
+  .micro-desc {
+    font-size: 0.85rem;
+    color: var(--paper-muted);
+    line-height: 1.5;
+    margin: 0 0 0.75rem;
+  }
+
+  .micro-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .tag-pill {
+    font-size: 0.68rem;
+    font-family: var(--font-mono, monospace);
+    background: var(--paper-bg, rgba(0, 0, 0, 0.03));
+    color: var(--paper-muted);
+    border: 1px solid var(--paper-line);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+  }
+
+  /* Post List (Writing) */
+  .post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .post-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem 1.1rem;
+    border-radius: 8px;
+    background: var(--paper-card-bg);
+    border: 1px solid var(--paper-card-border);
+    box-shadow: var(--paper-card-shadow);
+    text-decoration: none;
+    transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .post-item:hover {
+    transform: translateX(3px);
+    border-color: var(--paper-theme, #059669);
+    box-shadow: var(--paper-card-hover-shadow);
+  }
+
+  .post-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--paper-text);
+  }
+
+  .post-date {
+    font-size: 0.78rem;
+    color: var(--paper-muted);
+    font-family: var(--font-mono, monospace);
+  }
+
+  /* Stash List */
+  .stash-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 0.85rem;
+  }
+
+  .stash-item {
+    padding: 0.95rem 1.1rem;
+    border-radius: 8px;
+    background: var(--paper-card-bg);
+    border: 1px solid var(--paper-card-border);
+    box-shadow: var(--paper-card-shadow);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .stash-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--paper-card-hover-shadow);
+  }
+
+  .stash-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.35rem;
+  }
+
+  .stash-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--paper-text);
+  }
+
+  .stash-score {
+    font-size: 0.78rem;
+    font-family: var(--font-mono, monospace);
+    font-weight: 700;
+    color: var(--paper-theme, #059669);
+  }
+
+  .stash-verdict {
+    font-size: 0.82rem;
+    font-style: italic;
+    color: var(--paper-muted);
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  /* Filmstrip (Gallery) */
+  .filmstrip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+
+  .film-frame {
+    display: block;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--paper-card-border);
+    box-shadow: var(--paper-card-shadow);
+    aspect-ratio: 16 / 10;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .film-frame:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--paper-card-hover-shadow);
+  }
+
+  .film-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .film-frame:hover img {
+    transform: scale(1.05);
+  }
+
+  .frame-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.35rem 0.5rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (max-width: 640px) {
+    .filmstrip {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

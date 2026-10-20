@@ -301,25 +301,47 @@ const about = defineCollection({
 
 const projects = defineCollection({
   loader: glob({ base: './src/content/projects', pattern: '**/*.{md,mdx}' }),
-  schema: articleSchema,
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    date: z.coerce.date(),
+    status: z.enum(['Live', 'Beta', 'Prototype', 'Archived']).optional().default('Live'),
+    category: z.enum(['CLI Tool', 'Web App', 'AI Agent', 'Library', 'Experiment']).optional().default('Web App'),
+    tags: z.array(z.string()).optional().default([]),
+    demoUrl: z.string().optional(),
+    githubUrl: z.string().optional(),
+    featured: z.boolean().optional().default(false),
+    draft: z.boolean().optional().default(false),
+  }),
 });
 
-const vibe = defineCollection({
-  loader: glob({ base: './src/content/vibe', pattern: '**/*.{md,mdx}' }),
-  schema: ({ image }) =>
-    z.object({
-      title: z.string().optional(),
-      date: z.coerce.date(),
-      updatedDate: z.coerce.date().optional(),
-      draft: z.boolean().optional().default(false),
-      type: z.enum(['text', 'photo', 'quote', 'code', 'mixed']).optional().default('text'),
-      mood: z.string().optional(),
-      location: z.string().optional(),
-      images: z.array(contentImageSchema({ image })).optional().default([]),
-      tags: z.array(z.string()).optional().default([]),
-      align: z.enum(['left', 'right', 'center']).optional(),
-      size: z.enum(['sm', 'md', 'lg']).optional().default('md'),
-    }),
+const reviews = defineCollection({
+  loader: glob({ base: './src/content/reviews', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    title: z.string(),
+    type: z.enum(['movie', 'tv', 'book']),
+    rating: z.number().min(0).max(10),
+    date: z.coerce.date(),
+    creator: z.string().optional(),
+    year: z.number().optional(),
+    verdict: z.string().optional(),
+    draft: z.boolean().optional().default(false),
+    tags: z.array(z.string()).optional().default([]),
+  }),
 });
 
-export const collections = { about, blog, projects, vibe, siteConfig };
+const gallery = defineCollection({
+  loader: glob({ base: './src/content/gallery', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    date: z.coerce.date(),
+    location: z.string().optional(),
+    camera: z.string().optional(),
+    image: z.string(),
+    featured: z.boolean().optional().default(false),
+    draft: z.boolean().optional().default(false),
+  }),
+});
+
+export const collections = { about, blog, projects, reviews, gallery, siteConfig };

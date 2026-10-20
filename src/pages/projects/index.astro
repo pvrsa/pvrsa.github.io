@@ -1,176 +1,327 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
-import BlogArticle from '../../layouts/BlogArticle.astro';
-import { sortByDateDesc } from '../../utils/content-dates';
+import BlogTopNav from '../../components/blog/BlogTopNav.astro';
+import Icon from '../../components/Icon.astro';
+import { getSiteConfig } from '../../data/site';
 
-const projectEntries = await getCollection('projects');
-const projectIndex = projectEntries.find((entry) => entry.id === 'index');
-const projects = sortByDateDesc(
-  projectEntries.filter((entry) => entry.id !== 'index' && !entry.data.draft),
-);
+const { site, theme } = await getSiteConfig();
+const palette = theme.palette;
 
-if (!projectIndex) {
-  throw new Error('Missing src/content/projects/index.mdx content entry.');
-}
+const projectEntries = (await getCollection('projects'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-const { Content, headings } = await render(projectIndex);
-
-const relatedProjects = projects;
-
-const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
-
-function withBase(href: string) {
-  if (href === '/') {
-    return `${basePath}/` || '/';
-  }
-
-  return `${basePath}${href.startsWith('/') ? href : `/${href}`}`;
-}
+const statusColors: Record<string, { bg: string; text: string }> = {
+  Live: { bg: 'rgba(16, 185, 129, 0.12)', text: '#059669' },
+  Beta: { bg: 'rgba(59, 130, 246, 0.12)', text: '#2563eb' },
+  Prototype: { bg: 'rgba(245, 158, 11, 0.12)', text: '#d97706' },
+  Archived: { bg: 'rgba(107, 114, 128, 0.12)', text: '#4b5563' },
+};
 ---
 
-<BlogArticle
-  post={projectIndex}
-  headings={headings}
-  sidebar={{ enable: false, ...projectIndex.data.sidebar }}
-  headerVariant="archive"
-  headerKicker="Project shelf"
-  contentFont="ui"
->
-  <Content />
+<!doctype html>
+<html lang="en" data-palette={palette}>
+  <head>
+    <BaseHead
+      title={`Projects & Tools | ${site.title}`}
+      description="Small tools, web applications, and experimental software built in free time."
+    />
+    <style>
+      main {
+        width: min(100%, 820px);
+        margin: 0 auto;
+        padding: 120px 1.5rem 80px;
+      }
 
-  {
-    relatedProjects.length > 0 ? (
-      <section class="project-grid" aria-label="Projects">
-        {relatedProjects.map((project) => (
-          <a class="project-card" href={withBase(`/projects/${project.id}/`)}>
-            <span class="project-meta">
-              <FormattedDate date={project.data.date} />
-            </span>
-            <h2>{project.data.title}</h2>
-            <p>{project.data.description}</p>
-            {project.data.tags.length > 0 && (
-              <span class="project-tags" aria-label="Project tags">
-                {project.data.tags.slice(0, 3).map((tag) => (
-                  <small>{tag}</small>
-                ))}
-              </span>
-            )}
-          </a>
-        ))}
+      .page-header {
+        margin-bottom: 2.5rem;
+      }
+
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--paper-theme, #059669);
+        margin-bottom: 0.6rem;
+      }
+
+      .page-header h1 {
+        font-size: 2.2rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--paper-text);
+        margin: 0 0 0.6rem;
+      }
+
+      .page-header p {
+        font-size: 1.05rem;
+        color: var(--paper-muted);
+        margin: 0;
+        line-height: 1.6;
+      }
+
+      .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+      }
+
+      .filter-btn {
+        appearance: none;
+        border: 1px solid var(--paper-card-border);
+        background: var(--paper-card-bg);
+        color: var(--paper-muted);
+        box-shadow: var(--paper-card-shadow);
+        padding: 0.35rem 0.85rem;
+        border-radius: 9999px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: var(--paper-theme, #059669);
+        color: #ffffff;
+        border-color: var(--paper-theme, #059669);
+      }
+
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+        gap: 1.25rem;
+        margin-top: 2rem;
+      }
+
+      @media (max-width: 640px) {
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .project-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 1.5rem;
+        border-radius: 12px;
+        background: var(--paper-card-bg);
+        border: 1px solid var(--paper-card-border);
+        box-shadow: var(--paper-card-shadow);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      }
+
+      .project-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--paper-card-hover-shadow);
+        border-color: var(--paper-line-strong);
+      }
+
+      .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.75rem;
+      }
+
+      .category-pill {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--paper-muted);
+      }
+
+      .status-pill {
+        font-size: 0.72rem;
+        font-weight: 600;
+        padding: 0.15rem 0.55rem;
+        border-radius: 9999px;
+      }
+
+      .project-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--paper-text);
+        margin: 0 0 0.5rem;
+      }
+
+      .project-desc {
+        font-size: 0.92rem;
+        color: var(--paper-muted);
+        line-height: 1.6;
+        margin: 0 0 1.2rem;
+        flex-grow: 1;
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        margin-bottom: 1.2rem;
+      }
+
+      .tech-tag {
+        font-size: 0.72rem;
+        font-family: var(--font-mono, monospace);
+        background: var(--paper-bg, rgba(0, 0, 0, 0.03));
+        color: var(--paper-muted);
+        border: 1px solid var(--paper-line);
+        padding: 0.15rem 0.45rem;
+        border-radius: 4px;
+      }
+
+      .card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 0.85rem;
+        border-top: 1px solid var(--paper-line);
+      }
+
+      .project-date {
+        font-size: 0.78rem;
+        color: var(--paper-muted);
+      }
+
+      .action-links {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .action-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--paper-theme, #059669);
+        text-decoration: none;
+        transition: opacity 0.2s ease;
+      }
+
+      .action-link:hover {
+        opacity: 0.75;
+      }
+    </style>
+  </head>
+  <body>
+    <BlogTopNav />
+    <main>
+      <header class="page-header">
+        <div class="kicker">
+          <Icon name="sparkle" size={15} />
+          <span>Craft & Lab</span>
+        </div>
+        <h1>Projects</h1>
+        <p>A shelf of small tools, utilities, and weekend experiments built for personal use and curiosity.</p>
+
+        <div class="filter-bar" role="group" aria-label="Filter by category">
+          <button class="filter-btn active" data-filter="all" type="button">All</button>
+          <button class="filter-btn" data-filter="CLI Tool" type="button">CLI Tools</button>
+          <button class="filter-btn" data-filter="AI Agent" type="button">AI Agents</button>
+          <button class="filter-btn" data-filter="Web App" type="button">Web Apps</button>
+        </div>
+      </header>
+
+      <section class="projects-grid">
+        {projectEntries.map((project) => {
+          const status = project.data.status ?? 'Live';
+          const style = statusColors[status] || statusColors.Live;
+
+          return (
+            <article class="project-card" data-category={project.data.category}>
+              <div>
+                <div class="card-header">
+                  <span class="category-pill">{project.data.category}</span>
+                  <span
+                    class="status-pill"
+                    style={`background-color: ${style.bg}; color: ${style.text};`}
+                  >
+                    {status}
+                  </span>
+                </div>
+
+                <h2 class="project-title">{project.data.title}</h2>
+                <p class="project-desc">{project.data.description}</p>
+
+                {project.data.tags && project.data.tags.length > 0 && (
+                  <div class="tag-row">
+                    {project.data.tags.map((t) => (
+                      <span class="tech-tag">{t}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div class="card-footer">
+                <span class="project-date">
+                  <FormattedDate date={project.data.date} />
+                </span>
+
+                <div class="action-links">
+                  {project.data.githubUrl && (
+                    <a
+                      href={project.data.githubUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      class="action-link"
+                      aria-label={`${project.data.title} GitHub repository`}
+                    >
+                      <Icon name="github" size={15} />
+                      <span>Code</span>
+                    </a>
+                  )}
+                  {project.data.demoUrl && (
+                    <a
+                      href={project.data.demoUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      class="action-link"
+                      aria-label={`${project.data.title} Live Demo`}
+                    >
+                      <Icon name="external" size={15} />
+                      <span>Live</span>
+                    </a>
+                  )}
+                </div>
+              </div>
+            </article>
+          );
+        })}
       </section>
-    ) : (
-      <section class="project-empty" aria-label="Projects empty state">
-        <span aria-hidden="true">01</span>
-        <h2>Projects are being collected.</h2>
-        <p>
-          The route is ready; draft entries stay private until they are marked publishable in the
-          content collection.
-        </p>
-      </section>
-    )
-  }
-</BlogArticle>
+    </main>
+    <Footer />
 
-<style>
-  .project-meta,
-  .project-empty span,
-  .project-tags small {
-    font-family: var(--font-ui-label);
-  }
+    <script is:inline>
+      const buttons = document.querySelectorAll('.filter-btn');
+      const cards = document.querySelectorAll('.project-card');
 
-  .project-card p,
-  .project-empty p {
-    margin: 0;
-    color: var(--paper-ink-soft);
-    line-height: 1.78;
-  }
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          buttons.forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
 
-  .project-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
-    margin-top: 34px;
-  }
-
-  .project-card,
-  .project-empty {
-    border: 1px solid var(--paper-line);
-    border-radius: 8px;
-    background: var(--paper-surface);
-    box-shadow: var(--paper-shadow);
-  }
-
-  .project-card {
-    display: grid;
-    gap: 12px;
-    min-height: 210px;
-    padding: 22px;
-    color: var(--paper-ink);
-    text-decoration: none;
-    transition:
-      transform 180ms ease,
-      border-color 180ms ease,
-      background 180ms ease;
-  }
-
-  .project-card:hover {
-    border-color: var(--paper-line-strong);
-    background: var(--paper-control-hover);
-    transform: translateY(-1px);
-  }
-
-  .project-meta,
-  .project-empty span {
-    color: var(--paper-ink-faint);
-    font-size: 0.76rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-  }
-
-  .project-card h2,
-  .project-empty h2 {
-    margin: 0;
-    color: var(--paper-ink);
-    font-size: 1.32rem;
-    line-height: 1.28;
-  }
-
-  .project-card p {
-    max-width: 58ch;
-  }
-
-  .project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-self: end;
-  }
-
-  .project-tags small {
-    padding: 3px 8px;
-    border: 1px solid var(--paper-line);
-    border-radius: 999px;
-    color: var(--paper-ink-soft);
-    font-size: 0.74rem;
-  }
-
-  .project-empty {
-    display: grid;
-    gap: 10px;
-    max-width: 680px;
-    margin-top: 34px;
-    padding: 24px;
-  }
-
-  @media (max-width: 720px) {
-    .project-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .project-card,
-    .project-empty {
-      padding: 20px;
-    }
-  }
-</style>
+          const filter = btn.getAttribute('data-filter');
+          cards.forEach((card) => {
+            if (filter === 'all' || card.getAttribute('data-category') === filter) {
+              card.style.display = 'flex';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

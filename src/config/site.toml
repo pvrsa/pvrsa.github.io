@@ -81,12 +81,20 @@ label = "Home"
 href = "/"
 
 [[config.topNav.links]]
+label = "Projects"
+href = "/projects"
+
+[[config.topNav.links]]
 label = "Blog"
 href = "/blog"
 
 [[config.topNav.links]]
-label = "Vibe"
-href = "/vibe"
+label = "The Stash"
+href = "/stash"
+
+[[config.topNav.links]]
+label = "Gallery"
+href = "/gallery"
 
 [[config.topNav.links]]
 label = "About"
@@ -120,16 +128,28 @@ startDate = ""
 dateArchiveBaseHref = ""
 
 [[config.home.navigation]]
+icon = "sparkle"
+title = "Projects"
+subtitle = "Small tools & experimental apps"
+href = "/projects"
+
+[[config.home.navigation]]
 icon = "pen"
 title = "Blog"
-subtitle = "Essays, notes, and field reports"
+subtitle = "Essays, systems, and field notes"
 href = "/blog"
 
 [[config.home.navigation]]
-icon = "compass"
-title = "Vibe"
-subtitle = "Short thoughts and fragments"
-href = "/vibe"
+icon = "bookmark"
+title = "The Stash"
+subtitle = "Books, cinema, and television notes"
+href = "/stash"
+
+[[config.home.navigation]]
+icon = "camera"
+title = "Gallery"
+subtitle = "Frames from journeys & nature"
+href = "/gallery"
 
 [[config.home.navigation]]
 icon = "briefcase"

@@ -1,0 +1,316 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import BlogTopNav from '../components/blog/BlogTopNav.astro';
+import Icon from '../components/Icon.astro';
+import { getSiteConfig } from '../data/site';
+
+const { site, theme } = await getSiteConfig();
+const palette = theme.palette;
+
+const reviewEntries = (await getCollection('reviews'))
+  .filter((r) => !r.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const reviews = await Promise.all(
+  reviewEntries.map(async (entry) => {
+    const { Content } = await render(entry);
+    return { entry, Content };
+  })
+);
+
+const typeIcons: Record<string, string> = {
+  movie: 'film',
+  tv: 'clapperboard',
+  book: 'book',
+};
+
+const typeLabels: Record<string, string> = {
+  movie: 'Movie',
+  tv: 'TV Series',
+  book: 'Book',
+};
+---
+
+<!doctype html>
+<html lang="en" data-palette={palette}>
+  <head>
+    <BaseHead
+      title={`The Stash | ${site.title}`}
+      description="Personal takes, ratings, and thoughts on movies, TV shows, and books."
+    />
+    <style>
+      main {
+        width: min(100%, 780px);
+        margin: 0 auto;
+        padding: 120px 1.5rem 80px;
+      }
+
+      .reviews-header {
+        margin-bottom: 2.5rem;
+      }
+
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--paper-theme, #059669);
+        margin-bottom: 0.6rem;
+      }
+
+      .reviews-header h1 {
+        font-size: 2.2rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--paper-text);
+        margin: 0 0 0.6rem;
+      }
+
+      .reviews-header p {
+        font-size: 1.05rem;
+        color: var(--paper-muted);
+        margin: 0;
+        line-height: 1.6;
+      }
+
+      .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+      }
+
+      .filter-btn {
+        appearance: none;
+        border: 1px solid var(--paper-card-border);
+        background: var(--paper-card-bg);
+        color: var(--paper-muted);
+        box-shadow: var(--paper-card-shadow);
+        padding: 0.35rem 0.85rem;
+        border-radius: 9999px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: var(--paper-theme, #059669);
+        color: #ffffff;
+        border-color: var(--paper-theme, #059669);
+      }
+
+      .reviews-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .review-card {
+        padding: 1.6rem;
+        border-radius: 12px;
+        background: var(--paper-card-bg);
+        border: 1px solid var(--paper-card-border);
+        box-shadow: var(--paper-card-shadow);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      }
+
+      .review-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--paper-card-hover-shadow);
+        border-color: var(--paper-line-strong);
+      }
+
+      .card-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .item-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--paper-theme, #059669);
+        background: color-mix(in srgb, var(--paper-theme, #059669) 12%, transparent);
+        padding: 0.2rem 0.6rem;
+        border-radius: 6px;
+      }
+
+      .score-box {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.15rem;
+        font-family: var(--font-mono, monospace);
+        font-weight: 700;
+        background: color-mix(in srgb, var(--paper-text) 6%, transparent);
+        padding: 0.3rem 0.6rem;
+        border-radius: 8px;
+        border: 1px solid var(--paper-line);
+      }
+
+      .score-num {
+        font-size: 1.25rem;
+        color: var(--paper-theme, #059669);
+      }
+
+      .score-max {
+        font-size: 0.78rem;
+        color: var(--paper-muted);
+      }
+
+      .review-title {
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: var(--paper-text);
+        margin: 0 0 0.3rem;
+      }
+
+      .review-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.8rem;
+        font-size: 0.85rem;
+        color: var(--paper-muted);
+        margin-bottom: 0.9rem;
+      }
+
+      .verdict-line {
+        font-size: 0.95rem;
+        font-style: italic;
+        color: var(--paper-text);
+        border-left: 3px solid var(--paper-theme, #059669);
+        padding-left: 0.85rem;
+        margin: 0.75rem 0 1rem;
+        line-height: 1.5;
+      }
+
+      .review-body {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: var(--paper-text);
+        opacity: 0.92;
+      }
+
+      .review-body :global(p) {
+        margin: 0.6rem 0;
+      }
+
+      .review-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 1rem;
+      }
+
+      .tag {
+        font-size: 0.75rem;
+        color: var(--paper-muted);
+        background: var(--paper-bg, rgba(0, 0, 0, 0.03));
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        border: 1px solid var(--paper-line);
+      }
+    </style>
+  </head>
+  <body>
+    <BlogTopNav />
+    <main>
+      <header class="reviews-header">
+        <div class="kicker">
+          <Icon name="bookmark" size={15} />
+          <span>Ratings & Takes</span>
+        </div>
+        <h1>The Stash</h1>
+        <p>A quiet repository of books, cinema, and television that left an impression.</p>
+
+        <div class="filter-bar" role="group" aria-label="Filter reviews by type">
+          <button class="filter-btn active" data-filter="all" type="button">All</button>
+          <button class="filter-btn" data-filter="movie" type="button">Movies</button>
+          <button class="filter-btn" data-filter="tv" type="button">TV Shows</button>
+          <button class="filter-btn" data-filter="book" type="button">Books</button>
+        </div>
+      </header>
+
+      <section class="reviews-list">
+        {reviews.map(({ entry, Content }) => (
+          <article class="review-card" data-type={entry.data.type}>
+            <div class="card-top">
+              <span class="item-badge">
+                <Icon name={typeIcons[entry.data.type] || 'sparkle'} size={14} />
+                {typeLabels[entry.data.type] || entry.data.type}
+              </span>
+              <div class="score-box" aria-label={`Rating: ${entry.data.rating} out of 10`}>
+                <span class="score-num">{entry.data.rating}</span>
+                <span class="score-max">/10</span>
+              </div>
+            </div>
+
+            <h2 class="review-title">{entry.data.title}</h2>
+
+            <div class="review-meta">
+              {entry.data.creator && <span>By {entry.data.creator}</span>}
+              {entry.data.year && <span>({entry.data.year})</span>}
+              <span>• Reviewed on <FormattedDate date={entry.data.date} /></span>
+            </div>
+
+            {entry.data.verdict && (
+              <div class="verdict-line">
+                "{entry.data.verdict}"
+              </div>
+            )}
+
+            <div class="review-body">
+              <Content />
+            </div>
+
+            {entry.data.tags && entry.data.tags.length > 0 && (
+              <div class="review-tags">
+                {entry.data.tags.map((tag) => (
+                  <span class="tag">#{tag}</span>
+                ))}
+              </div>
+            )}
+          </article>
+        ))}
+      </section>
+    </main>
+    <Footer />
+
+    <script is:inline>
+      const buttons = document.querySelectorAll('.filter-btn');
+      const cards = document.querySelectorAll('.review-card');
+
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          buttons.forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          const filter = btn.getAttribute('data-filter');
+          cards.forEach((card) => {
+            if (filter === 'all' || card.getAttribute('data-type') === filter) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

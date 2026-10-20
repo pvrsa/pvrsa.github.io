@@ -37,8 +37,12 @@
   --paper-surface: #fffffc;
   --paper-surface-muted: #f7f8f3;
   --paper-surface-rgb: 255, 255, 252;
-  --paper-line: rgba(31, 35, 40, 0.075);
-  --paper-line-strong: rgba(31, 35, 40, 0.12);
+  --paper-line: rgba(31, 35, 40, 0.08);
+  --paper-line-strong: rgba(31, 35, 40, 0.14);
+  --paper-card-bg: #ffffff;
+  --paper-card-border: rgba(31, 35, 40, 0.08);
+  --paper-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.02);
+  --paper-card-hover-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
   --paper-ink: #272d28;
   --paper-ink-soft: #667066;
   --paper-ink-faint: #90998f;
@@ -91,6 +95,10 @@
   --paper-surface-rgb: 32, 38, 32;
   --paper-line: rgba(217, 229, 213, 0.08);
   --paper-line-strong: rgba(217, 229, 213, 0.14);
+  --paper-card-bg: #222923;
+  --paper-card-border: rgba(217, 229, 213, 0.1);
+  --paper-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.2);
+  --paper-card-hover-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
   --paper-ink: #eaebe5;
   --paper-ink-soft: #b5beb1;
   --paper-ink-faint: #899487;
