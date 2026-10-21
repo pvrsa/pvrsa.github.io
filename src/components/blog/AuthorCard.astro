@@ -6,7 +6,8 @@ const { profile } = await getSiteConfig();
 ---
 
 <aside class="author-card blog-card">
-  <img src={profile.avatar} alt={`${profile.name} avatar`} />
+  <img src={profile.avatar} alt={`${profile.name} avatar`} class="avatar-dark" />
+  <img src="/images/logo-light.png" alt={`${profile.name} avatar`} class="avatar-light" />
   <h2>{profile.name}</h2>
   <p>{profile.handle}</p>
   <span>{profile.role}</span>
@@ -40,6 +41,20 @@ const { profile } = await getSiteConfig();
     border-radius: 8px;
     box-shadow: var(--paper-shadow);
     object-fit: cover;
+  }
+
+  .avatar-light {
+    display: block;
+  }
+  .avatar-dark {
+    display: none;
+  }
+
+  :global([data-theme='dark']) .avatar-light {
+    display: none;
+  }
+  :global([data-theme='dark']) .avatar-dark {
+    display: block;
   }
 
   h2 {

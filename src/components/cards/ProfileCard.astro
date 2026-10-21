@@ -24,6 +24,15 @@ const { profile } = Astro.props as { profile: Profile };
       width="176"
       height="176"
       loading="eager"
+      class="avatar-dark"
+    />
+    <img
+      src="/images/logo-light.png"
+      alt={`${profile.name} GitHub avatar`}
+      width="176"
+      height="176"
+      loading="eager"
+      class="avatar-light"
     />
   </div>
 
@@ -63,6 +72,21 @@ const { profile } = Astro.props as { profile: Profile };
     height: 100%;
     object-fit: cover;
     border-radius: inherit;
+  }
+
+  /* Theme-adaptive avatar display */
+  .avatar-light {
+    display: block;
+  }
+  .avatar-dark {
+    display: none;
+  }
+
+  :global([data-theme='dark']) .avatar-light {
+    display: none;
+  }
+  :global([data-theme='dark']) .avatar-dark {
+    display: block;
   }
 
   .profile-heading h1 {
