@@ -42,6 +42,47 @@ const { profile } = Astro.props as { profile: Profile };
     <span>
       <Icon name="sparkle" /> {profile.role}
     </span>
+    <div class="profile-socials">
+      <a
+        href="https://www.linkedin.com/in/sai-aasrith-56815415a"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="LinkedIn"
+        title="LinkedIn"
+      >
+        <Icon name="linkedin" size={16} />
+      </a>
+      <a
+        href="https://github.com/pvrsa"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="GitHub"
+        title="GitHub"
+      >
+        <Icon name="github" size={16} />
+      </a>
+      <a
+        href="https://www.instagram.com/im_pvr/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram (Personal)"
+        title="Instagram (@im_pvr)"
+      >
+        <Icon name="instagram" size={16} />
+      </a>
+      <a
+        href="https://www.instagram.com/im_pvr_snaps"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram (Photography)"
+        title="Photography (@im_pvr_snaps)"
+      >
+        <Icon name="camera" size={16} />
+      </a>
+      <a href={`mailto:${profile.email}`} aria-label="Email" title="Email">
+        <Icon name="mail" size={16} />
+      </a>
+    </div>
   </div>
 </article>
 
@@ -113,6 +154,37 @@ const { profile } = Astro.props as { profile: Profile };
     background: transparent;
     color: var(--paper-ink);
     font-size: 0.82rem;
+  }
+
+  .profile-socials {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .profile-socials a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    color: var(--paper-ink-soft);
+    background: var(--paper-control);
+    border: 1px solid var(--paper-line);
+    transition:
+      color 0.15s ease,
+      background 0.15s ease,
+      transform 0.15s ease;
+    text-decoration: none;
+  }
+
+  .profile-socials a:hover {
+    color: var(--paper-accent);
+    background: var(--paper-control-hover);
+    transform: translateY(-2px);
   }
 
   .profile-heading svg {
