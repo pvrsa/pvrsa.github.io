@@ -114,8 +114,8 @@ image = "/images/logo-with-name.png"
 title = "I'm Sai Aasrith"
 name = "Sai Aasrith"
 body = [
-  "Software engineer at AWS, working on distributed systems and AI agents.",
-  "6 years at Amazon building infrastructure for DynamoDB and QuickSight AI."
+  "Software engineer at AWS, working on distributed systems and cloud storage infrastructure.",
+  "6 years at Amazon building large-scale systems across DynamoDB, QuickSight AI, and S3 Tables."
 ]
 image = "/images/logo-cat.png"
 
@@ -163,14 +163,19 @@ href = "https://github.com/pvrsa"
 icon = "github"
 
 [[config.home.connect]]
-label = "Blog"
-href = "/blog"
-icon = "book"
+label = "LinkedIn"
+href = "https://www.linkedin.com/in/sai-aasrith-56815415a"
+icon = "linkedin"
 
 [[config.home.connect]]
-label = "Vibe"
-href = "/vibe"
-icon = "compass"
+label = "Instagram"
+href = "https://www.instagram.com/im_pvr/"
+icon = "instagram"
+
+[[config.home.connect]]
+label = "Snaps"
+href = "https://www.instagram.com/im_pvr_snaps"
+icon = "camera"
 
 [[config.home.connect]]
 label = "Email"
@@ -178,13 +183,13 @@ href = "mailto:sai.aasrith@gmail.com"
 icon = "mail"
 
 [[config.home.doing]]
-text = "Building AI agent orchestration at AWS QuickSight"
+text = "Building storage infrastructure at AWS S3 Tables"
 mark = "01"
 
 [[config.home.doing]]
-text = "Scaling DynamoDB Global Tables infrastructure"
+text = "Previously scaled DynamoDB Global Tables & QuickSight AI"
 mark = "02"
 
 [[config.home.doing]]
-text = "Writing about distributed systems and AI"
+text = "Writing about distributed systems and storage"
 mark = "03"

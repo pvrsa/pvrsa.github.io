@@ -7,6 +7,39 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
 import expressiveCode from 'astro-expressive-code';
+import fs from 'node:fs';
+import path from 'node:path';
+
+function servePagefindDevPlugin() {
+  return {
+    name: 'serve-pagefind-dev',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        if (req.url && req.url.startsWith('/pagefind/')) {
+          const filePath = path.resolve(
+            process.cwd(),
+            'dist',
+            req.url.replace(/^\//, '').split('?')[0],
+          );
+
+          if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+            if (filePath.endsWith('.js')) {
+              res.setHeader('Content-Type', 'application/javascript');
+            } else if (filePath.endsWith('.css')) {
+              res.setHeader('Content-Type', 'text/css');
+            } else if (filePath.endsWith('.json')) {
+              res.setHeader('Content-Type', 'application/json');
+            } else if (filePath.endsWith('.wasm')) {
+              res.setHeader('Content-Type', 'application/wasm');
+            }
+            return fs.createReadStream(filePath).pipe(res);
+          }
+        }
+        next();
+      });
+    },
+  };
+}
 
 const customSite = process.env.SITE_URL;
 const customBase = process.env.SITE_BASE;
@@ -51,6 +84,6 @@ export default defineConfig({
   integrations: [expressiveCode(), mdx(), sitemap()],
 
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss(), servePagefindDevPlugin()],
   },
 });

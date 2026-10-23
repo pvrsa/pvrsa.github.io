@@ -1,5 +1,5 @@
 ---
-import { Github, Mail, Rss } from 'lucide-astro';
+import { Github, Instagram, Linkedin, Mail, Rss } from 'lucide-astro';
 import { getSiteConfig } from '../../data/site';
 
 const { profile } = await getSiteConfig();
@@ -13,8 +13,24 @@ const { profile } = await getSiteConfig();
   <span>{profile.role}</span>
 
   <div class="social-links" aria-label="Author links">
-    <a href={profile.github} aria-label="GitHub">
+    <a href={profile.github} aria-label="GitHub" target="_blank" rel="noopener noreferrer">
       <Github size={16} />
+    </a>
+    <a
+      href="https://www.linkedin.com/in/sai-aasrith-56815415a"
+      aria-label="LinkedIn"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <Linkedin size={16} />
+    </a>
+    <a
+      href="https://www.instagram.com/im_pvr/"
+      aria-label="Instagram"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <Instagram size={16} />
     </a>
     <a href={`mailto:${profile.email}`} aria-label="Email">
       <Mail size={16} />
